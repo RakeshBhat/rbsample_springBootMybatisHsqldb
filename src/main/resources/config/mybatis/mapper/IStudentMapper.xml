@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rbsample_springBootMybatisHsqldb.IStudentMapper">
+    <select id="getStudents" resultType="Student">
+        select * from student
+    </select>
+    
+    <update id="saveStudent" parameterType="Student">
+MERGE INTO student U USING ( select role from DUAL ) ON (U.role=#{role}) 
+        WHEN MATCHED THEN 
+        UPDATE SET U.name=#{name}, U.grade=#{grade}
+        WHEN NOT MATCHED THEN 
+        INSERT(role, name, grade) VALUES (#{role},#{name},#{grade})
+            </update>
+</mapper>
